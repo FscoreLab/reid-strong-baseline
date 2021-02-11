@@ -13,11 +13,11 @@ import torch
 from torch.backends import cudnn
 
 sys.path.append('.')
-from config import cfg
-from data import make_data_loader
-from engine.inference import inference
-from modeling import build_model
-from utils.logger import setup_logger
+from reid_strong_baseline.config import cfg
+from reid_strong_baseline.data import make_data_loader
+from reid_strong_baseline.engine.inference import inference
+from reid_strong_baseline.modeling import build_model
+from reid_strong_baseline.utils.logger import setup_logger
 
 
 def main():

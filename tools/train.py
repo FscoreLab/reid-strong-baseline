@@ -12,14 +12,14 @@ import torch
 from torch.backends import cudnn
 
 sys.path.append('.')
-from config import cfg
-from data import make_data_loader
-from engine.trainer import do_train, do_train_with_center
-from modeling import build_model
-from layers import make_loss, make_loss_with_center
-from solver import make_optimizer, make_optimizer_with_center, WarmupMultiStepLR
+from reid_strong_baseline.config import cfg
+from reid_strong_baseline.data import make_data_loader
+from reid_strong_baseline.engine.trainer import do_train, do_train_with_center
+from reid_strong_baseline.modeling import build_model
+from reid_strong_baseline.layers import make_loss, make_loss_with_center
+from reid_strong_baseline.solver import make_optimizer, make_optimizer_with_center, WarmupMultiStepLR
 
-from utils.logger import setup_logger
+from reid_strong_baseline.utils.logger import setup_logger
 
 
 def train(cfg):
@@ -78,7 +78,10 @@ def train(cfg):
 
         # Add for using self trained model
         if cfg.MODEL.PRETRAIN_CHOICE == 'self':
-            start_epoch = eval(cfg.MODEL.PRETRAIN_PATH.split('/')[-1].split('.')[0].split('_')[-1])
+            # try:
+            #     start_epoch = eval(cfg.MODEL.PRETRAIN_PATH.split('/')[-1].split('.')[0].split('_')[-1])
+            # except:
+            start_epoch = -1
             print('Start epoch:', start_epoch)
             path_to_optimizer = cfg.MODEL.PRETRAIN_PATH.replace('model', 'optimizer')
             print('Path to the checkpoint of optimizer:', path_to_optimizer)
@@ -86,10 +89,23 @@ def train(cfg):
             print('Path to the checkpoint of center_param:', path_to_center_param)
             path_to_optimizer_center = cfg.MODEL.PRETRAIN_PATH.replace('model', 'optimizer_center')
             print('Path to the checkpoint of optimizer_center:', path_to_optimizer_center)
-            model.load_state_dict(torch.load(cfg.MODEL.PRETRAIN_PATH))
-            optimizer.load_state_dict(torch.load(path_to_optimizer))
-            center_criterion.load_state_dict(torch.load(path_to_center_param))
-            optimizer_center.load_state_dict(torch.load(path_to_optimizer_center))
+            # model.load_state_dict(torch.load(cfg.MODEL.PRETRAIN_PATH))
+            model.load_param(cfg.MODEL.PRETRAIN_PATH)
+            try:
+                optimizer.load_state_dict(torch.load(path_to_optimizer))
+            except FileNotFoundError:
+                print("fuck you")
+
+            try:
+                center_criterion.load_state_dict(torch.load(path_to_center_param))
+            except FileNotFoundError:
+                print("fuck you")
+
+            try:
+                optimizer_center.load_state_dict(torch.load(path_to_optimizer_center))
+            except FileNotFoundError:
+                print("fuck you")
+
             scheduler = WarmupMultiStepLR(optimizer, cfg.SOLVER.STEPS, cfg.SOLVER.GAMMA, cfg.SOLVER.WARMUP_FACTOR,
                                           cfg.SOLVER.WARMUP_ITERS, cfg.SOLVER.WARMUP_METHOD, start_epoch)
         elif cfg.MODEL.PRETRAIN_CHOICE == 'imagenet':

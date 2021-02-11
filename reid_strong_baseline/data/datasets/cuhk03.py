@@ -9,7 +9,7 @@ import os.path as osp
 from scipy.io import loadmat
 from scipy.misc import imsave
 
-from utils.iotools import mkdir_if_missing, write_json, read_json
+from reid_strong_baseline.utils.iotools import mkdir_if_missing, write_json, read_json
 from .bases import BaseImageDataset
 
 

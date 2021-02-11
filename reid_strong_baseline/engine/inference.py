@@ -9,7 +9,7 @@ import torch
 import torch.nn as nn
 from ignite.engine import Engine
 
-from utils.reid_metric import R1_mAP, R1_mAP_reranking
+from reid_strong_baseline.utils.reid_metric import R1_mAP, R1_mAP_reranking
 
 
 def create_supervised_evaluator(model, metrics,

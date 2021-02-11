@@ -8,7 +8,7 @@ import numpy as np
 import torch
 from ignite.metrics import Metric
 
-from data.datasets.eval_reid import eval_func
+from reid_strong_baseline.data.datasets.eval_reid import eval_func
 from .re_ranking import re_ranking
 
 

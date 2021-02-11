@@ -11,7 +11,7 @@ import zipfile
 
 import os.path as osp
 
-from utils.iotools import mkdir_if_missing
+from reid_strong_baseline.utils.iotools import mkdir_if_missing
 from .bases import BaseImageDataset
 
 

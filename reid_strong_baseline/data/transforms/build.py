@@ -6,7 +6,7 @@
 
 import torchvision.transforms as T
 
-from .transforms import RandomErasing
+from .transforms import RandomErasing, Resizer
 
 
 def build_transforms(cfg, is_train=True):
@@ -23,6 +23,7 @@ def build_transforms(cfg, is_train=True):
         ])
     else:
         transform = T.Compose([
+            # Resizer(),
             T.Resize(cfg.INPUT.SIZE_TEST),
             T.ToTensor(),
             normalize_transform

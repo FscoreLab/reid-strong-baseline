@@ -5,9 +5,9 @@ import torch
 from torch import nn
 
 sys.path.append('.')
-from solver.lr_scheduler import WarmupMultiStepLR
-from solver.build import make_optimizer
-from config import cfg
+from reid_strong_baseline.solver.lr_scheduler import WarmupMultiStepLR
+from reid_strong_baseline.solver.build import make_optimizer
+from reid_strong_baseline.config import cfg
 
 
 class MyTestCase(unittest.TestCase):
